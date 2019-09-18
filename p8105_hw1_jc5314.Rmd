@@ -7,7 +7,7 @@ output: github_document
 
 # Problem 1
 
-### 1. Create a data frame called `p1_data`:
+### 1. Create a data frame called `p1_df`:
 
 ```{r, message = FALSE}
 library(tidyverse)
@@ -21,7 +21,7 @@ p1_df = tibble(
 )
 ```
 
-### 2. Take the mean of each variable in the data frame `p1_data`:
+### 2. Take the mean of each variable in the data frame `p1_df`:
 
 ```{r,collapse = TRUE}
 mean(pull(p1_df, norm_samp))
@@ -34,7 +34,7 @@ When trying to take the mean of each variable in the data frame, the first two v
 
 ### 3. Convert variables from one type to another:
 
-Applies the `as.numeric` function to the logical, character, and factor variables:
+Apply the `as.numeric` function to the logical, character, and factor variables:
 
 ```{r, eval = FALSE}
 as.numeric(pull(p1_df, norm_samp_pos))
@@ -71,22 +71,22 @@ as.numeric(factor_samp_pos) * pull(p1_df, norm_samp)
 p2_df = tibble(                  
   x = rnorm(500),
   y = rnorm(500),
-  xy_sum_compare = x + y > 1,
-  xy_sum_compare_numeric = as.numeric(xy_sum_compare),
-  xy_sum_compare_factor = factor(xy_sum_compare)
+  xy_sum_compare_logic = x + y > 1,
+  xy_sum_compare_numeric = as.numeric(xy_sum_compare_logic),
+  xy_sum_compare_factor = factor(xy_sum_compare_logic)
 )
 ```
 
 Dataset description: 
 
-The dataset `p2_df`contains `r nrow(p2_df)` rows and `r ncol(p2_df)` columns. For the variable `x` in dataset, the mean is `r mean(pull(p2_df, x))`, the median is `r median(pull(p2_df, x))` and the standard deviation is `r sd(pull(p2_df, x))`. The proportion of cases for which `x + y > 1` is `r sum(pull(p2_df, xy_sum_compare)) / length(pull(p2_df,x)) * 100`%.
+The dataset `p2_df`contains `r nrow(p2_df)` rows and `r ncol(p2_df)` columns. For the variable `x` in dataset, the mean is `r mean(pull(p2_df, x))`, the median is `r median(pull(p2_df, x))` and the standard deviation is `r sd(pull(p2_df, x))`. The proportion of cases for which `x + y > 1` is `r sum(pull(p2_df, xy_sum_compare_logic)) / length(pull(p2_df,x)) * 100`%.
 
 ### 2. Make a scatterplot of `y` vs `x`:
 
 Make the plots:
 
 ```{r}
-plot_1 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare)) + geom_point()
+plot_1 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare_logic)) + geom_point()
 
 plot_2 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare_numeric)) + geom_point()
 
@@ -101,7 +101,7 @@ plot_2
 plot_3
 ```
 
-Comments on the on the color scales:
+Comments on the color scales:
 
 Although the points in these three scatterplots are colored by different types of variable (logical, numeric, factor), the color scales are the same. Points are sepereted into two different colors approximately by a linear line y = -x + 1, which accords with the criterion (`x + y > 1`) of setting the logical variable. 
 
