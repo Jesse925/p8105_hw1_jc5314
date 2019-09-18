@@ -42,7 +42,7 @@ as.numeric(pull(p1_df, character_vector))
 as.numeric(pull(p1_df, factor_level))
 ```
 
-
+**(What happens, and why? Does this help explain what happens when you try to take the mean?)**
 
 ```{r, eval = FALSE}
 # Convert the logical vector to numeric, and multiply the random sample by the result:
@@ -59,3 +59,23 @@ factor(pull(p1_df, norm_samp_pos)) * pull(p1_df, norm_samp)
 factor_samp_pos = factor(pull(p1_df, norm_samp_pos))
 as.numeric(factor_samp_pos) * pull(p1_df, norm_samp)
 ```
+
+# Problem 2
+
+### 1. Creat a data frame called `p2_df`:
+
+```{r}
+# data frame for problem 2
+p2_df = tibble(                  
+  x = rnorm(500),
+  y = rnorm(500),
+  xy_sum_compare = x + y > 1,
+  xy_sum_compare_numeric = as.numeric(xy_sum_compare),
+  xy_sum_compare_factor = factor(xy_sum_compare)
+)
+```
+
+Dataset description: 
+
+The dataset `p2_df`contains `r nrow(p2_df)` rows and `r ncol(p2_df)` columns. For the variable `x` in dataset, the mean is `r mean(pull(p2_df, x))`, the median is `r median(pull(p2_df, x))` and the standard deviation is `r sd(pull(p2_df, x))`. The proportion of cases for which `x + y > 1` is `r sum(pull(p2_df, xy_sum_compare)) / length(pull(p2_df,x)) * 100`%.
+
