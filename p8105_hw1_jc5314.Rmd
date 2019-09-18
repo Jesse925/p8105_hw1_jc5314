@@ -23,7 +23,7 @@ p1_df = tibble(
 
 ### 2. Take the mean of each variable in the data frame `p1_data`:
 
-```{r, }
+```{r,collapse = TRUE}
 mean(pull(p1_df, norm_samp))
 mean(pull(p1_df, norm_samp_pos))
 mean(pull(p1_df, character_vector))
@@ -42,9 +42,11 @@ as.numeric(pull(p1_df, character_vector))
 as.numeric(pull(p1_df, factor_level))
 ```
 
-**(What happens, and why? Does this help explain what happens when you try to take the mean?)**
+When applying the `as.numeric` function to the logical variable, the `TURE` in the logical variable is converted to `1` and `FALSE` is converted to `2`. For the character variable, the function does not work and give `NA` as results. For the factor variable, factors are converted to numbers starting from `1` and the number of same factors are the same. 
 
-```{r, eval = FALSE}
+I think this is because the logical and factor variables can be considered as categorical variables. Thus, they can be converted to certain numbers with different values and still represent different categories. However, the character variable cannot be divied into different categories and thus it cannot be converted to any certain number. I think this helps explain the reason why logical variable can take the mean but character variable cannot. But it does not explain why the factor varible cannot take the mean neither.
+
+```{r, collapse = TRUE}
 # Convert the logical vector to numeric, and multiply the random sample by the result:
 
 as.numeric(pull(p1_df, norm_samp_pos)) * pull(p1_df, norm_samp)
@@ -79,3 +81,32 @@ Dataset description:
 
 The dataset `p2_df`contains `r nrow(p2_df)` rows and `r ncol(p2_df)` columns. For the variable `x` in dataset, the mean is `r mean(pull(p2_df, x))`, the median is `r median(pull(p2_df, x))` and the standard deviation is `r sd(pull(p2_df, x))`. The proportion of cases for which `x + y > 1` is `r sum(pull(p2_df, xy_sum_compare)) / length(pull(p2_df,x)) * 100`%.
 
+### 2. Make a scatterplot of `y` vs `x`:
+
+Make the plots:
+
+```{r}
+plot_1 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare)) + geom_point()
+
+plot_2 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare_numeric)) + geom_point()
+
+plot_3 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare_factor)) + geom_point()
+```
+
+Show the plots:
+
+```{r}
+plot_1
+plot_2
+plot_3
+```
+
+Comments on the on the color scales:
+
+Although the points in these three scatterplots are colored by different types of variable (logical, numeric, factor), the color scales are the same. Points are sepereted into two different colors approximately by a linear line y = -x + 1, which accords with the criterion (`x + y > 1`) of setting the logical variable. 
+
+### 3. Save the first scatterplot:
+
+```{r, message = FALSE}
+ggsave('./hw1_scatterplot.png', plot = plot_1)
+```
