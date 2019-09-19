@@ -42,9 +42,9 @@ as.numeric(pull(p1_df, character_vector))
 as.numeric(pull(p1_df, factor_level))
 ```
 
-When applying the `as.numeric` function to the logical variable, the `TURE` in the logical variable is converted to `1` and `FALSE` is converted to `2`. For the character variable, the function does not work and give `NA` as results. For the factor variable, factors are converted to numbers starting from `1` and the number of same factors are the same. 
+When applying the `as.numeric` function to the logical variable, the `TURE` in the logical variable is converted to `1` and the `FALSE` is converted to `2`. For the character variable, the function does not work and give `NA` as results. For the factor variable, factors are converted to numeric numbers starting from `1` and the number for same factors are the same. 
 
-I think this is because the logical and factor variables can be considered as categorical variables. Thus, they can be converted to certain numbers with different values and still represent different categories. However, the character variable cannot be divied into different categories and thus it cannot be converted to any certain number. I think this helps explain the reason why logical variable can take the mean but character variable cannot. But it does not explain why the factor varible cannot take the mean neither.
+I think this is because the logical and factor variables can be considered as categorical variables. Thus, they can be converted to certain numbers with different values and still represent different categories. However, the character variable cannot be divied into different categories and thus it cannot be converted to any certain number. I think this helps explain the reason why logical variable can take the mean but character variable cannot. But it does not explain why the factor variable cannot take the mean neither.
 
 ```{r, collapse = TRUE}
 # Convert the logical vector to numeric, and multiply the random sample by the result:
@@ -81,14 +81,20 @@ Dataset description:
 
 The dataset `p2_df`contains `r nrow(p2_df)` rows and `r ncol(p2_df)` columns. For the variable `x` in dataset, the mean is `r mean(pull(p2_df, x))`, the median is `r median(pull(p2_df, x))` and the standard deviation is `r sd(pull(p2_df, x))`. The proportion of cases for which `x + y > 1` is `r sum(pull(p2_df, xy_sum_compare_logic)) / length(pull(p2_df,x)) * 100`%.
 
-### 2. Make a scatterplot of `y` vs `x`:
+### 2. Make scatterplots of `y` vs `x`:
 
 Make the plots:
 
 ```{r}
+# color points using the logical variable
+
 plot_1 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare_logic)) + geom_point()
 
+# color points using the numeric variable
+
 plot_2 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare_numeric)) + geom_point()
+
+# color points using the factor variable
 
 plot_3 = ggplot(p2_df, aes(x = x, y = y, color = xy_sum_compare_factor)) + geom_point()
 ```
